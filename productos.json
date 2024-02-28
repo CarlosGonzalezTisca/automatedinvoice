@@ -1,0 +1,57 @@
+[
+  {
+    "ITEM": "WA type A",
+    "DESCRIPCION": "Development of a multi-platform web application aimed at clothing commerce, streamlining payments, sales, and delivery logistics.",
+    "PRECIO": 7499
+  },
+  {
+    "ITEM": "WA type B",
+    "DESCRIPCION": "Development of a multi-platform web application aimed at clothing commerce, streamlining payments, sales, and delivery logistics.",
+    "PRECIO": 10499
+  },
+  {
+    "ITEM": "WA type C",
+    "DESCRIPCION": "Development of a multi-platform web application aimed at clothing commerce, streamlining payments, sales, and delivery logistics.",
+    "PRECIO": 20499
+  },
+  {
+    "ITEM": "Web page type A",
+    "DESCRIPCION": "Creation and development of a multiplatform website, encompassing everything from general client information to specific basic functionalities such as WhatsApp redirection, shopping cart implementation, integration of third-party APIs (additional cost), among other fundamental features.",
+    "PRECIO": 5399
+  },
+  {
+    "ITEM": "Web page type B",
+    "DESCRIPCION": "Creation and development of a multiplatform website, encompassing everything from general client information to specific basic functionalities such as WhatsApp redirection, shopping cart implementation, integration of third-party APIs (additional cost), among other fundamental features.",
+    "PRECIO": 6399
+  },
+  {
+    "ITEM": "Web page type C",
+    "DESCRIPCION": "Creation and development of a multiplatform website, encompassing everything from general client information to specific basic functionalities such as WhatsApp redirection, shopping cart implementation, integration of third-party APIs (additional cost), among other fundamental features.",
+    "PRECIO": 7399
+  },
+  {
+    "ITEM": "Re design Type A",
+    "DESCRIPCION": "Website redesign involves a comprehensive assessment of the current webpage, determining the level of complexity for the overhaul. This service includes the creation of low to medium fidelity mockups to visualize the proposed changes and improvements",
+    "PRECIO": 1299
+  },
+  {
+    "ITEM": "Re design Type B",
+    "DESCRIPCION": "Website redesign involves a comprehensive assessment of the current webpage, determining the level of complexity for the overhaul. This service includes the creation of low to medium fidelity mockups to visualize the proposed changes and improvements",
+    "PRECIO": 1499
+  },
+  {
+    "ITEM": "Re design Type C",
+    "DESCRIPCION": "Website redesign involves a comprehensive assessment of the current webpage, determining the level of complexity for the overhaul. This service includes the creation of low to medium fidelity mockups to visualize the proposed changes and improvements",
+    "PRECIO": 1899
+  },
+  {
+    "ITEM": "Development type A",
+    "DESCRIPCION": "Development type A is targeted towards small and medium-sized businesses that require basic functionalities for the development of their website, web app, or web page, among others.",
+    "PRECIO": 0
+  },
+  {
+    "ITEM": "Hosting Web Single",
+    "DESCRIPCION": "Hosting Web Single yearly Icon 1 sitio web Icon Icon Rendimiento estándar Icon 50 GB de SSD Icon Copias de seguridad semanales Icon Icon 1 cuenta de email Icon SSL ilimitado gratis Icon Icon 100 GB de ancho de banda",
+    "PRECIO": 675
+  }
+]

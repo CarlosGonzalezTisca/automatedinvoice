@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .factura {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .encabezado {
+            background-color: #f2f2f2;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .detalle {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .detalle th, .detalle td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .total {
+            margin-top: 20px;
+        }
+
+        .total table {
+            width: 50%;
+            margin-left: auto;
+            margin-right: 0;
+            margin-top: 10px;
+        }
+
+        .total th, .total td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="factura">
+        <div class="encabezado">
+            <h2>Factura</h2>
+            <p><strong>ID de Factura:</strong> <span class="idFactura"></span></p>
+            <p><strong>Fecha:</strong> <span class="fecha"></span></p>
+        </div>
+
+        <table class="detalle">
+            <thead>
+                <tr>
+                    <th>Servicio</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se insertarán los detalles de la factura -->
+            </tbody>
+        </table>
+
+        <div class="total">
+            <h3>Total</h3>
+            <table>
+                <tr>
+                    <th>Subtotal:</th>
+                    <td>$<span class="subtotal"></span></td>
+                </tr>
+                <tr>
+                    <th>Descuento:</th>
+                    <td>$<span class="descuento"></span></td>
+                </tr>
+                <tr>
+                    <th>Tax:</th>
+                    <td>$<span class="tax"></span></td>
+                </tr>
+                <tr>
+                    <th>Total:</th>
+                    <td>$<span class="total"></span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

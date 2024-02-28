@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Productos y Servicios</title>
+</head>
+
+<body>
+    <h1>Gestor de Productos y Servicios</h1>
+
+    <form id="productForm">
+        <label for="item">Item:</label>
+        <input type="text" id="item" required>
+
+        <label for="description">Descripción:</label>
+        <input type="text" id="description" required>
+
+        <label for="price">Precio:</label>
+        <input type="number" id="price" required>
+
+        <button type="button" onclick="agregarProducto()">Agregar Producto/Servicio</button>
+    </form>
+
+    <h2>Listado de Productos y Servicios</h2>
+    <ul id="productList"></ul>
+
+    <hr>
+
+    <h1>Generador de Facturas</h1>
+    <form id="facturaForm">
+        <label for="nombreCliente">Nombre del Cliente:</label>
+        <input type="text" id="nombreCliente" required>
+
+        <label for="proyecto">Proyecto:</label>
+        <input type="text" id="proyecto" required>
+
+        <label for="linkPago">Link de Pago:</label>
+        <input type="text" id="linkPago" required>
+
+        <h3>Servicios Disponibles:</h3>
+        <ul id="serviciosList"></ul>
+
+        <label for="descuento">Descuento (%):</label>
+        <input type="number" id="descuento" min="0" max="100" value="0">
+
+        <button type="button" onclick="generarFactura()">Generar y Mostrar Factura</button>
+    </form>
+
+    <h2>Factura Generada:</h2>
+    <pre id="facturaGenerada"></pre>
+
+    <script>
+        async function cargarYMostrarFactura() {
+            const facturaId = obtenerUltimoIdFactura();
+            try {
+                const factura = await obtenerFactura(facturaId);
+                const serviciosHtml = generarServiciosHtml(factura.servicios);
+
+                const templateHtml = await obtenerTemplateHtml('/index.html');
+                const facturaHtml = remplazarVariablesTemplate(templateHtml, factura, serviciosHtml);
+
+                const facturaGenerada = document.getElementById('facturaGenerada');
+                facturaGenerada.textContent = facturaHtml;
+            } catch (error) {
+                console.error('Error al cargar o mostrar la factura:', error);
+                alert('Error al cargar o mostrar la factura.');
+            }
+        }
+
+        function obtenerUltimoIdFactura() {
+            // Implementa tu lógica para obtener el último ID de factura
+            return 1; // Ejemplo: Devuelve un valor estático como ejemplo
+        }
+
+        async function obtenerFactura(facturaId) {
+            const response = await fetch(`/obtener-factura/${facturaId}`);
+            return await response.json();
+        }
+
+        async function obtenerTemplateHtml(templatePath) {
+            const response = await fetch(templatePath);
+            return await response.text();
+        }
+
+        function generarServiciosHtml(servicios) {
+            return servicios.map((servicio, index) =>
+                `<div class="div-row-container">
+                    <div class="div-row-info">
+                        <div class="div-row">
+                            <div class="div-background-row">
+                                <span class="span-b">${index + 1}</span>
+                            </div>
+                            <div class="div-header">
+                                <div class="div-columna-c">
+                                    <span class="span-text-row">${servicio.DESCRIPCION}</span>
+                                </div>
+                                <div class="div-columna-d">
+                                    <span class="span-text-row-e">${servicio.CANTIDAD || 1}</span>
+                                </div>
+                                <div class="div-columna-f">
+                                    <button class="button-text-row">${servicio.PRECIO}</button>
+                                </div>
+                                <div class="div-columna-10">
+                                    <span class="span-text-row-11">${servicio.PRECIO * (servicio.CANTIDAD || 1)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+            ).join('');
+        }
+
+        function remplazarVariablesTemplate(templateHtml, factura, serviciosHtml) {
+            return templateHtml
+                .replace(/IDINVOICE/g, `${factura.id}`)
+                .replace(/VARCLIENTE/g, `${factura.nombreCliente}`)
+                .replace(/VARPROYECTO/g, `${factura.proyecto}`)
+                .replace(/VARFECHA/g, `${factura.fecha}`)
+                .replace(/VARLINKPAGO/g, `${factura.linkPago}`)
+                .replace(/VARSUBTOTAL/g, `${factura.subtotal + factura.tax}`)
+                .replace(/VARDESCUENTO/g, `${factura.descuento}`)
+                .replace(/VARTAX/g, `${factura.tax}`)
+                .replace(/VARTOTAL/g, `${factura.total}`)
+                .replace(/VARLISTASERVICIOS/g, serviciosHtml);
+        }
+
+        async function cargarServicios() {
+            const response = await fetch('/servicios');
+            const servicios = await response.json();
+
+            const serviciosList = document.getElementById('serviciosList');
+
+            servicios.forEach(servicio => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <input type="checkbox" id="${servicio.ITEM}" value="${servicio.ITEM}">
+                    <label for="${servicio.ITEM}">${servicio.DESCRIPCION} - $${servicio.PRECIO}</label>
+                `;
+                serviciosList.appendChild(listItem);
+            });
+        }
+
+        cargarServicios();
+
+        async function cargarProductosDesdeServidor() {
+            const response = await fetch('/productos');
+            const data = await response.json();
+            productosExistentes = data;
+            cargarProductos(productosExistentes);
+        }
+
+        cargarProductosDesdeServidor();
+
+        function cargarProductos(productos) {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
+
+            productos.forEach(producto => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Item: ${producto.ITEM}, Descripción: ${producto.DESCRIPCION}, Precio: ${producto.PRECIO}`;
+                productList.appendChild(listItem);
+            });
+        }
+
+        async function agregarProducto() {
+            const item = document.getElementById('item').value;
+            const descripcion = document.getElementById('description').value;
+            const precio = document.getElementById('price').value;
+
+            if (item && descripcion && precio) {
+                const nuevoProducto = {
+                    ITEM: item,
+                    DESCRIPCION: descripcion,
+                    PRECIO: parseFloat(precio)
+                };
+
+                const response = await fetch('/productos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(nuevoProducto),
+                });
+
+                const data = await response.json();
+                productosExistentes = data;
+
+                document.getElementById('productForm').reset();
+                cargarProductos(productosExistentes);
+            } else {
+                alert('Por favor, complete todos los campos.');
+            }
+        }
+
+    async function generarFactura() {
+    try {
+        const nombreCliente = document.getElementById('nombreCliente').value;
+        const proyecto = document.getElementById('proyecto').value;
+        const linkPago = document.getElementById('linkPago').value;
+
+        const serviciosSeleccionados = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
+
+        const descuento = parseFloat(document.getElementById('descuento').value) || 0;
+
+        const data = {
+            nombreCliente,
+            proyecto,
+            linkPago,
+            servicios: serviciosSeleccionados,
+            descuento
+        };
+
+        const response = await fetch('/generar-factura', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error al generar la factura: ${response.statusText}`);
+        }
+
+        const facturaGenerada = await response.json();
+        const serviciosHtml = generarServiciosHtml(facturaGenerada.servicios);
+
+        const templateHtml = await obtenerTemplateHtml('/index.html');
+        const facturaHtml = remplazarVariablesTemplate(templateHtml, facturaGenerada, serviciosHtml);
+
+        const newWindow = window.open();
+        newWindow.document.write(facturaHtml);
+    } catch (error) {
+        console.error('Error al generar la factura:', error);
+        alert('Error al generar la factura.');
+    }
+}
+ 
+    </script>
+</body>
+
+</html>
